@@ -41,10 +41,20 @@ const userSchemaObject = {
         type: String,
         required: false,
         default: ""
+    },
+    userRole: {
+        type: String,
+        default: "CUSTOMER",
+        enum: ["CUSTOMER", "SELLER", "ADMIN", "SUPER_ADMIN"]
+    },
+    isActive: {
+        type: Boolean,
+        required: true,
+        default: true
     }
 }
 
-const userSchema = new mongoose.Schema(userSchemaObject);
+const userSchema = new mongoose.Schema(userSchemaObject, {timestamps: true});
 userSchema.pre("save" , async function() {
     try{
         const salt = await bcrypt.genSalt(10);
